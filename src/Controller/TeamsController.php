@@ -25,6 +25,7 @@ class TeamsController extends AbstractController
     #[Route('/new', name: 'app_teams_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $team = new Teams();
         $form = $this->createForm(TeamsType::class, $team);
         $form->handleRequest($request);
@@ -53,6 +54,7 @@ class TeamsController extends AbstractController
     #[Route('/{id}/edit', name: 'app_teams_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Teams $team, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(TeamsType::class, $team);
         $form->handleRequest($request);
 
@@ -71,6 +73,7 @@ class TeamsController extends AbstractController
     #[Route('/{id}', name: 'app_teams_delete', methods: ['POST'])]
     public function delete(Request $request, Teams $team, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if ($this->isCsrfTokenValid('delete'.$team->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($team);
             $entityManager->flush();

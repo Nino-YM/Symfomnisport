@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/members')]
 class MembersController extends AbstractController
@@ -17,6 +17,8 @@ class MembersController extends AbstractController
     #[Route('/', name: 'app_members_index', methods: ['GET'])]
     public function index(MembersRepository $membersRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         return $this->render('members/index.html.twig', [
             'members' => $membersRepository->findAll(),
         ]);
@@ -25,6 +27,8 @@ class MembersController extends AbstractController
     #[Route('/new', name: 'app_members_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         $member = new Members();
         $form = $this->createForm(MembersType::class, $member);
         $form->handleRequest($request);
@@ -45,6 +49,8 @@ class MembersController extends AbstractController
     #[Route('/{id}', name: 'app_members_show', methods: ['GET'])]
     public function show(Members $member): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         return $this->render('members/show.html.twig', [
             'member' => $member,
         ]);
@@ -53,6 +59,8 @@ class MembersController extends AbstractController
     #[Route('/{id}/edit', name: 'app_members_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Members $member, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
         $form = $this->createForm(MembersType::class, $member);
         $form->handleRequest($request);
 
@@ -71,7 +79,9 @@ class MembersController extends AbstractController
     #[Route('/{id}', name: 'app_members_delete', methods: ['POST'])]
     public function delete(Request $request, Members $member, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$member->getId(), $request->getPayload()->getString('_token'))) {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        
+        if ($this->isCsrfTokenValid('delete'.$member->getId(), $request->request->get('_token'))) {
             $entityManager->remove($member);
             $entityManager->flush();
         }

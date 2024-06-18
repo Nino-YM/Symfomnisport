@@ -12,6 +12,8 @@ class UserController extends AbstractController
     #[Route('/', name: 'app_user_profile', methods: ['GET'])]
     public function profile(): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $user = $this->getUser();
 
         return $this->render('user/profile.html.twig', [

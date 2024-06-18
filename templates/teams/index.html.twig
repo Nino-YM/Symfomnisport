@@ -8,7 +8,6 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>actions</th>
             </tr>
@@ -16,11 +15,12 @@
         <tbody>
         {% for team in teams %}
             <tr>
-                <td>{{ team.id }}</td>
                 <td>{{ team.name }}</td>
                 <td>
                     <a href="{{ path('app_teams_show', {'id': team.id}) }}">show</a>
-                    <a href="{{ path('app_teams_edit', {'id': team.id}) }}">edit</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_teams_edit', {'id': team.id}) }}">edit</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -30,6 +30,7 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_teams_new') }}">Create new</a>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_teams_new') }}">Create new</a>
+    {% endif %}
 {% endblock %}
