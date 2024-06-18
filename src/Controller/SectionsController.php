@@ -25,6 +25,7 @@ class SectionsController extends AbstractController
     #[Route('/new', name: 'app_sections_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $section = new Sections();
         $form = $this->createForm(SectionsType::class, $section);
         $form->handleRequest($request);
@@ -53,6 +54,7 @@ class SectionsController extends AbstractController
     #[Route('/{id}/edit', name: 'app_sections_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Sections $section, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(SectionsType::class, $section);
         $form->handleRequest($request);
 
@@ -71,6 +73,7 @@ class SectionsController extends AbstractController
     #[Route('/{id}', name: 'app_sections_delete', methods: ['POST'])]
     public function delete(Request $request, Sections $section, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         if ($this->isCsrfTokenValid('delete'.$section->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($section);
             $entityManager->flush();
