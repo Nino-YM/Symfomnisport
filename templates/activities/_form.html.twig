@@ -1,23 +1,37 @@
-{{ form_start(form) }}
-    {{ form_errors(form) }}
-    {{ form_row(form.name) }}
-    {{ form_row(form.description) }}
-    {{ form_row(form.date) }}
-    {{ form_row(form.section) }}
+{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+    <div class="mb-3">
+        {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.description, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.date, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="mb-3">
+        {{ form_label(form.section, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.section, {'attr': {'class': 'form-control'}}) }}
+    </div>
 
-    <h2>Teams</h2>
-    <ul id="activity_teams" data-prototype="{{ form_widget(form.teams.vars.prototype)|e('html_attr') }}">
-        {% for activityTeam in form.teams %}
-            <li>
-                {{ form_widget(activityTeam) }}
-                <button type="button" class="remove-activity-team">Remove</button>
-            </li>
-        {% endfor %}
-    </ul>
+    <div class="mb-3">
+        {{ form_label(form.teams, 'Teams', {'label_attr': {'class': 'form-label'}}) }}
+        <ul id="activity_teams" class="list-group mb-3" data-prototype="{{ form_widget(form.teams.vars.prototype)|e('html_attr') }}">
+            {% for activityTeam in form.teams %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ form_widget(activityTeam, {'attr': {'class': 'form-control'}}) }}
+                    <button type="button" class="btn btn-danger btn-sm remove-activity-team">Remove</button>
+                </li>
+            {% endfor %}
+        </ul>
+        <button type="button" id="add-activity-team" class="btn btn-success mb-3">Add another team</button>
+    </div>
 
-    <button type="button" id="add-activity-team">Add another team</button>
-
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    </div>
 {{ form_end(form) }}
 
 <script>
@@ -29,8 +43,9 @@
 
         addActivityTeamButton.addEventListener('click', function() {
             var newForm = document.createElement('li');
+            newForm.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
             newForm.innerHTML = prototype.replace(/__name__/g, index);
-            newForm.innerHTML += '<button type="button" class="remove-activity-team">Remove</button>';
+            newForm.innerHTML += '<button type="button" class="btn btn-danger btn-sm remove-activity-team">Remove</button>';
             activityTeamsCollection.appendChild(newForm);
             index++;
 

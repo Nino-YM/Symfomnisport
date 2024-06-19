@@ -35,6 +35,7 @@ class ActivitiesType extends AbstractType
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
+                'label' => false, // Ensure no label is generated for CollectionType
             ]);
     }
 
