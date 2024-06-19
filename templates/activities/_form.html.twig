@@ -1,4 +1,48 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    {{ form_errors(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.date) }}
+    {{ form_row(form.section) }}
+
+    <h2>Teams</h2>
+    <ul id="activity_teams" data-prototype="{{ form_widget(form.teams.vars.prototype)|e('html_attr') }}">
+        {% for activityTeam in form.teams %}
+            <li>
+                {{ form_widget(activityTeam) }}
+                <button type="button" class="remove-activity-team">Remove</button>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <button type="button" id="add-activity-team">Add another team</button>
+
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var activityTeamsCollection = document.getElementById('activity_teams');
+        var addActivityTeamButton = document.getElementById('add-activity-team');
+        var prototype = activityTeamsCollection.dataset.prototype;
+        var index = activityTeamsCollection.getElementsByTagName('li').length;
+
+        addActivityTeamButton.addEventListener('click', function() {
+            var newForm = document.createElement('li');
+            newForm.innerHTML = prototype.replace(/__name__/g, index);
+            newForm.innerHTML += '<button type="button" class="remove-activity-team">Remove</button>';
+            activityTeamsCollection.appendChild(newForm);
+            index++;
+
+            newForm.querySelector('.remove-activity-team').addEventListener('click', function() {
+                newForm.remove();
+            });
+        });
+
+        document.querySelectorAll('.remove-activity-team').forEach(function(button) {
+            button.addEventListener('click', function() {
+                button.parentElement.remove();
+            });
+        });
+    });
+</script>

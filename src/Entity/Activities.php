@@ -29,22 +29,22 @@ class Activities
      * @var Collection<int, Members>
      */
     #[ORM\ManyToMany(targetEntity: Members::class, inversedBy: 'activities')]
-    private Collection $Member;
+    private Collection $members;
 
     #[ORM\ManyToOne(inversedBy: 'activities')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Sections $Section = null;
+    private ?Sections $section = null;
 
     /**
      * @var Collection<int, Teams>
      */
     #[ORM\ManyToMany(targetEntity: Teams::class, inversedBy: 'activities')]
-    private Collection $team;
+    private Collection $teams;
 
     public function __construct()
     {
-        $this->Member = new ArrayCollection();
-        $this->team = new ArrayCollection();
+        $this->members = new ArrayCollection();
+        $this->teams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -91,15 +91,15 @@ class Activities
     /**
      * @return Collection<int, Members>
      */
-    public function getMember(): Collection
+    public function getMembers(): Collection
     {
-        return $this->Member;
+        return $this->members;
     }
 
     public function addMember(Members $member): static
     {
-        if (!$this->Member->contains($member)) {
-            $this->Member->add($member);
+        if (!$this->members->contains($member)) {
+            $this->members->add($member);
         }
 
         return $this;
@@ -107,19 +107,19 @@ class Activities
 
     public function removeMember(Members $member): static
     {
-        $this->Member->removeElement($member);
+        $this->members->removeElement($member);
 
         return $this;
     }
 
     public function getSection(): ?Sections
     {
-        return $this->Section;
+        return $this->section;
     }
 
-    public function setSection(?Sections $Section): static
+    public function setSection(?Sections $section): static
     {
-        $this->Section = $Section;
+        $this->section = $section;
 
         return $this;
     }
@@ -127,15 +127,15 @@ class Activities
     /**
      * @return Collection<int, Teams>
      */
-    public function getTeam(): Collection
+    public function getTeams(): Collection
     {
-        return $this->team;
+        return $this->teams;
     }
 
     public function addTeam(Teams $team): static
     {
-        if (!$this->team->contains($team)) {
-            $this->team->add($team);
+        if (!$this->teams->contains($team)) {
+            $this->teams->add($team);
         }
 
         return $this;
@@ -143,7 +143,7 @@ class Activities
 
     public function removeTeam(Teams $team): static
     {
-        $this->team->removeElement($team);
+        $this->teams->removeElement($team);
 
         return $this;
     }

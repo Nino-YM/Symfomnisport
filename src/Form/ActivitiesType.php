@@ -26,12 +26,15 @@ class ActivitiesType extends AbstractType
                 'choice_label' => 'name',
                 'placeholder' => 'Choose a section',
             ])
-            ->add('team', EntityType::class, [
-                'class' => Teams::class,
-                'choice_label' => 'name',
-                'multiple' => true,
-                'expanded' => false,
-                'placeholder' => 'Choose teams',
+            ->add('teams', CollectionType::class, [
+                'entry_type' => EntityType::class,
+                'entry_options' => [
+                    'class' => Teams::class,
+                    'choice_label' => 'name',
+                ],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
             ]);
     }
 
