@@ -24,7 +24,9 @@
                 <td>{{ activity.date ? activity.date|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('app_activities_show', {'id': activity.id}) }}">show</a>
-                    <a href="{{ path('app_activities_edit', {'id': activity.id}) }}">edit</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_activities_edit', {'id': activity.id}) }}">edit</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}

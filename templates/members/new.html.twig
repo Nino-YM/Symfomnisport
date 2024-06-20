@@ -5,7 +5,23 @@
 {% block body %}
     <h1>Create new Members</h1>
 
-    {{ include('members/_form.html.twig') }}
+    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+        <div class="mb-3">
+            {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.lastname, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.lastname, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="mb-3">
+            {{ form_label(form.email, null, {'label_attr': {'class': 'form-label'}}) }}
+            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+        </div>
 
-    <a href="{{ path('app_members_index') }}">back to list</a>
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+            <a href="{{ path('app_members_index') }}" class="btn btn-secondary">Back to list</a>
+        </div>
+    {{ form_end(form) }}
 {% endblock %}
