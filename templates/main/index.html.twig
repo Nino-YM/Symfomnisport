@@ -1,20 +1,91 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MainController!{% endblock %}
+{% block title %}Welcome to Symfomnisport!{% endblock %}
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .hero-section {
+        position: relative;
+        background-image: url('{{ asset('images/sports-tools.jpg') }}');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 60px 0;
+        text-align: center;
+    }
+    .hero-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* Black overlay with 50% opacity */
+        z-index: 1;
+    }
+    .hero-section h1,
+    .hero-section p {
+        position: relative;
+        z-index: 2;
+    }
+    .hero-section h1 {
+        font-size: 48px;
+        margin-bottom: 20px;
+    }
+    .hero-section p {
+        font-size: 24px;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .section {
+        padding: 40px 0;
+    }
+    .section h2 {
+        font-size: 32px;
+        margin-bottom: 20px;
+    }
+    .section p {
+        font-size: 18px;
+        line-height: 1.6;
+    }
+    .section img {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        color: white;
+        font-size: 18px;
+        padding: 10px 20px;
+        text-decoration: none;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="hero-section">
+    <h1>Welcome to Symfomnisport!</h1>
+    <p>Your one-stop destination for all things sports. Join us and be a part of an active and vibrant community!</p>
+</div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/Users/azert/Desktop/Symfomnisport/src/Controller/MainController.php</code></li>
-        <li>Your template at <code>C:/Users/azert/Desktop/Symfomnisport/templates/main/index.html.twig</code></li>
-    </ul>
+<div class="container">
+    <div class="section">
+        <h2>About Our Club</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur ac felis arcu. Sed vestibulum ante sed nulla varius, id laoreet ligula vestibulum. Quisque non felis orci. Vivamus et nisl eget risus tincidunt commodo non ac nisl.</p>
+        <p>Aliquam erat volutpat. Aenean sollicitudin diam ut mi dictum, eget tempor nisi cursus. Sed nec erat vel lacus ullamcorper ultricies non sed nunc. Nullam suscipit, eros et placerat viverra, nisi quam efficitur quam, sit amet fermentum nunc neque eget nulla. Sed aliquet ligula vitae metus suscipit, ac consequat dui tempor.</p>
+    </div>
+    <div class="section">
+        <h2>Our Activities</h2>
+        <img src="{{ asset('images/backgroundomnisport.jpg') }}" alt="Sports activities image">
+        <p>We offer a variety of sports activities including football, basketball, volleyball, badminton, and more. Whether you're a beginner or a seasoned athlete, there's something for everyone at Symfomnisport.</p>
+        <p>Join one of our many teams, participate in our events, and stay active with us!</p>
+    </div>
+    <div class="section text-center">
+        <a href="{{ path('app_activities_index') }}" class="btn btn-primary">View Activities</a>
+    </div>
 </div>
 {% endblock %}

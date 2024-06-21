@@ -31,7 +31,6 @@
 
     <div class="d-flex justify-content-between">
         <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
-        <a href="{{ path('app_activities_index') }}" class="btn btn-secondary">Back to list</a>
     </div>
 {{ form_end(form) }}
 
@@ -42,6 +41,12 @@
         var prototype = activityTeamsCollection.dataset.prototype;
         var index = activityTeamsCollection.getElementsByTagName('li').length;
 
+        function addRemoveEvent(button) {
+            button.addEventListener('click', function() {
+                button.parentElement.remove();
+            });
+        }
+
         addActivityTeamButton.addEventListener('click', function() {
             var newForm = document.createElement('li');
             newForm.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
@@ -50,15 +55,15 @@
             activityTeamsCollection.appendChild(newForm);
             index++;
 
-            newForm.querySelector('.remove-activity-team').addEventListener('click', function() {
-                newForm.remove();
-            });
+            // Add the class to the new select element
+            newForm.querySelector('select').classList.add('form-control');
+
+            // Bind the remove event
+            addRemoveEvent(newForm.querySelector('.remove-activity-team'));
         });
 
         document.querySelectorAll('.remove-activity-team').forEach(function(button) {
-            button.addEventListener('click', function() {
-                button.parentElement.remove();
-            });
+            addRemoveEvent(button);
         });
     });
 </script>

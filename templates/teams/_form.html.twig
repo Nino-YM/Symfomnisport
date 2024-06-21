@@ -19,7 +19,6 @@
 
     <div class="d-flex justify-content-between">
         <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
-        <a href="{{ path('app_teams_index') }}" class="btn btn-secondary">Back to list</a>
     </div>
 {{ form_end(form) }}
 
@@ -30,10 +29,9 @@
         var prototype = teamMembersCollection.dataset.prototype;
         var index = teamMembersCollection.getElementsByTagName('li').length;
 
-        function bindRemoveButton(button) {
+        function addRemoveEvent(button) {
             button.addEventListener('click', function() {
-                var li = button.closest('li');
-                li.parentNode.removeChild(li);
+                button.parentElement.remove();
             });
         }
 
@@ -45,11 +43,15 @@
             teamMembersCollection.appendChild(newForm);
             index++;
 
-            bindRemoveButton(newForm.querySelector('.remove-member'));
+            // Add the class to the new select element
+            newForm.querySelector('select').classList.add('form-control');
+
+            // Bind the remove event
+            addRemoveEvent(newForm.querySelector('.remove-member'));
         });
 
         document.querySelectorAll('.remove-member').forEach(function(button) {
-            bindRemoveButton(button);
+            addRemoveEvent(button);
         });
     });
 </script>

@@ -1,23 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sections{% endblock %}
+{% block title %}Section Details{% endblock %}
 
 {% block body %}
-    <h1>Sections</h1>
+    <h1 class="my-4">Section Details</h1>
 
-    <table class="table">
+    <table class="table table-bordered">
         <tbody>
             <tr>
-                <th>Name</th>
+                <th scope="row">Name</th>
                 <td>{{ section.name }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_sections_index') }}">back to list</a>
-    {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('app_sections_edit', {'id': section.id}) }}">edit</a>
+    <a href="{{ path('app_sections_index') }}" class="btn btn-info mr-2">Back to list</a>
 
-        {{ include('sections/_delete_form.html.twig') }}
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('app_sections_edit', {'id': section.id}) }}" class="btn btn-warning mr-2">Edit</a>
+        {{ include('sections/_delete_form.html.twig', { 'class': 'btn btn-danger' }) }}
     {% endif %}
 {% endblock %}

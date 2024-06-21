@@ -1,39 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Members index{% endblock %}
+{% block title %}Members Index{% endblock %}
 
 {% block body %}
-    <h1>Members index</h1>
+    <h1 class="my-4">Members Index</h1>
 
-    <table class="table">
-        <thead>
+    <div class="mb-3">
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('app_members_new') }}" class="btn btn-primary">Create New Member</a>
+        {% endif %}
+    </div>
+
+    <table class="table table-striped">
+        <thead class="table-dark">
             <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Lastname</th>
-                <th>Email</th>
-                <th>actions</th>
+                <th scope="col">Name</th>
+                <th scope="col">Lastname</th>
+                <th scope="col">Email</th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for member in members %}
             <tr>
-                <td>{{ member.id }}</td>
                 <td>{{ member.name }}</td>
                 <td>{{ member.lastname }}</td>
                 <td>{{ member.email }}</td>
                 <td>
-                    <a href="{{ path('app_members_show', {'id': member.id}) }}">show</a>
-                    <a href="{{ path('app_members_edit', {'id': member.id}) }}">edit</a>
+                    <a href="{{ path('app_members_show', {'id': member.id}) }}" class="btn btn-info btn-sm">Show</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('app_members_edit', {'id': member.id}) }}" class="btn btn-warning btn-sm">Edit</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5" class="text-center">No records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_members_new') }}">Create new</a>
 {% endblock %}

@@ -3,13 +3,17 @@
 {% block title %}Sections index{% endblock %}
 
 {% block body %}
-    <h1>Sections index</h1>
-
-    <table class="table">
-        <thead>
+    <h1 class="my-4">Sections Index</h1>
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="mb-3">
+            <a href="{{ path('app_sections_new') }}" class="btn btn-primary">Create New Section</a>
+        </div>
+    {% endif %}
+    <table class="table table-striped">
+        <thead class="table-dark">
             <tr>
-                <th>Name</th>
-                <th>actions</th>
+                <th scope="col">Name</th>
+                <th scope="col">Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -17,19 +21,17 @@
             <tr>
                 <td>{{ section.name }}</td>
                 <td>
-                    <a href="{{ path('app_sections_show', {'id': section.id}) }}">show</a>
+                    <a href="{{ path('app_sections_show', {'id': section.id}) }}" class="btn btn-info btn-sm">Show</a>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('app_sections_edit', {'id': section.id}) }}">edit</a>
+                        <a href="{{ path('app_sections_edit', {'id': section.id}) }}" class="btn btn-warning btn-sm">Edit</a>
                     {% endif %}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="2" class="text-center">No records found</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_sections_new') }}">Create new</a>
 {% endblock %}
