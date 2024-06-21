@@ -21,7 +21,7 @@ class Sections
     /**
      * @var Collection<int, Activities>
      */
-    #[ORM\OneToMany(targetEntity: Activities::class, mappedBy: 'Section')]
+    #[ORM\OneToMany(targetEntity: Activities::class, mappedBy: 'section')]
     private Collection $activities;
 
     public function __construct()
