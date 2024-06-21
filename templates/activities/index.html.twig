@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Activities Index{% endblock %}
+{% block title %}Activities{% endblock %}
 
 {% block body %}
-    <h1 class="my-4">Activities Index</h1>
+    <h1 class="my-4">Activities</h1>
     {% if is_granted('ROLE_ADMIN') %}
         <div class="mb-3">
             <a href="{{ path('app_activities_new') }}" class="btn btn-primary">Create New Activity</a>

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sports Index{% endblock %}
+{% block title %}Sports{% endblock %}
 
 {% block stylesheets %}
     <style>
@@ -20,7 +20,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1 class="my-4">Sports Index</h1>
+    <h1 class="my-4">Sports</h1>
     {% if is_granted('ROLE_ADMIN') %}
         <div class="mb-3">
             <a href="{{ path('app_sections_new') }}" class="btn btn-primary">Add a sport</a>
