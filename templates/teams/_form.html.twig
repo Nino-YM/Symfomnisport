@@ -1,4 +1,55 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+    <div class="mb-3">
+        {{ form_label(form.name, null, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.members, 'Members', {'label_attr': {'class': 'form-label'}}) }}
+        <ul id="team_members" class="list-group mb-3" data-prototype="{{ form_widget(form.members.vars.prototype)|e('html_attr') }}">
+            {% for member in form.members %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ form_widget(member, {'attr': {'class': 'form-control'}}) }}
+                    <button type="button" class="btn btn-danger btn-sm remove-member">Remove</button>
+                </li>
+            {% endfor %}
+        </ul>
+        <button type="button" id="add-member" class="btn btn-success mb-3">Add another member</button>
+    </div>
+
+    <div class="d-flex justify-content-between">
+        <button type="submit" class="btn btn-primary">{{ button_label|default('Save') }}</button>
+        <a href="{{ path('app_teams_index') }}" class="btn btn-secondary">Back to list</a>
+    </div>
 {{ form_end(form) }}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var teamMembersCollection = document.getElementById('team_members');
+        var addMemberButton = document.getElementById('add-member');
+        var prototype = teamMembersCollection.dataset.prototype;
+        var index = teamMembersCollection.getElementsByTagName('li').length;
+
+        function bindRemoveButton(button) {
+            button.addEventListener('click', function() {
+                var li = button.closest('li');
+                li.parentNode.removeChild(li);
+            });
+        }
+
+        addMemberButton.addEventListener('click', function() {
+            var newForm = document.createElement('li');
+            newForm.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+            newForm.innerHTML = prototype.replace(/__name__/g, index);
+            newForm.innerHTML += '<button type="button" class="btn btn-danger btn-sm remove-member">Remove</button>';
+            teamMembersCollection.appendChild(newForm);
+            index++;
+
+            bindRemoveButton(newForm.querySelector('.remove-member'));
+        });
+
+        document.querySelectorAll('.remove-member').forEach(function(button) {
+            bindRemoveButton(button);
+        });
+    });
+</script>
