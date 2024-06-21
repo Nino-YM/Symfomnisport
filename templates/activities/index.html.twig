@@ -16,6 +16,7 @@
                 <th scope="col">Description</th>
                 <th scope="col">Date</th>
                 <th scope="col">Teams</th>
+                <th scope="col">Sport</th>
                 <th scope="col">Actions</th>
             </tr>
         </thead>
@@ -36,6 +37,7 @@
                         <p>No teams</p>
                     {% endif %}
                 </td>
+                <td>{{ activity.section ? activity.section.name : 'No section' }}</td>
                 <td>
                     <a href="{{ path('app_activities_show', {'id': activity.id}) }}" class="btn btn-info btn-sm">Show</a>
                     {% if is_granted('ROLE_ADMIN') %}
@@ -46,7 +48,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="5" class="text-center">No records found</td>
+                <td colspan="6" class="text-center">No records found</td>
             </tr>
         {% endfor %}
         </tbody>

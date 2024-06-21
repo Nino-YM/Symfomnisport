@@ -1,6 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sports index{% endblock %}
+{% block title %}Sports Index{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .card-img-top {
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .card {
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+    </style>
+{% endblock %}
 
 {% block body %}
     <h1 class="my-4">Sports Index</h1>
@@ -9,30 +26,27 @@
             <a href="{{ path('app_sections_new') }}" class="btn btn-primary">Add a sport</a>
         </div>
     {% endif %}
-    <table class="table table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
+
+    <div class="row">
         {% for section in sections %}
-            <tr>
-                <td>{{ section.name }}</td>
-                <td>
-                    <a href="{{ path('app_sections_show', {'id': section.id}) }}" class="btn btn-info btn-sm">Show</a>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('app_sections_edit', {'id': section.id}) }}" class="btn btn-warning btn-sm">Edit</a>
-                        {{ include('sections/_delete_form.html.twig', { 'id': section.id, 'button_class': 'btn btn-danger btn-sm', 'button_label': 'Delete' }) }}
-                    {% endif %}
-                </td>
-            </tr>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <a href="{{ path('app_sections_show', {'id': section.id}) }}">
+                        <img src="../images/{{ section.name|lower }}.jpg" class="card-img-top" alt="{{ section.name }}">
+                    </a>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ section.name }}</h5>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('app_sections_edit', {'id': section.id}) }}" class="btn btn-warning btn-sm">Edit</a>
+                            {{ include('sections/_delete_form.html.twig', { 'id': section.id, 'button_class': 'btn btn-danger btn-sm', 'button_label': 'Delete' }) }}
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         {% else %}
-            <tr>
-                <td colspan="2" class="text-center">No records found</td>
-            </tr>
+            <div class="col-12 text-center">
+                <p>No records found</p>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
+    </div>
 {% endblock %}
