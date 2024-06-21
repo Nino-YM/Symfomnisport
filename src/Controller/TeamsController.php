@@ -74,7 +74,7 @@ class TeamsController extends AbstractController
     public function delete(Request $request, Teams $team, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        if ($this->isCsrfTokenValid('delete'.$team->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$team->getId(), $request->request->get('_token'))) {
             $entityManager->remove($team);
             $entityManager->flush();
         }

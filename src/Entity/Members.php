@@ -24,25 +24,20 @@ class Members
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
 
-    /**
-     * @var Collection<int, Activities>
-     */
-    #[ORM\ManyToMany(targetEntity: Activities::class, mappedBy: 'Member')]
+    #[ORM\ManyToMany(targetEntity: Activities::class, mappedBy: 'members')]
     private Collection $activities;
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?User $user = null;
 
-    /**
-     * @var Collection<int, Teams>
-     */
     #[ORM\ManyToMany(targetEntity: Teams::class, inversedBy: 'members')]
-    private Collection $team;
+    #[ORM\JoinTable(name: 'members_teams')]
+    private Collection $teams;
 
     public function __construct()
     {
         $this->activities = new ArrayCollection();
-        $this->team = new ArrayCollection();
+        $this->teams = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -58,7 +53,6 @@ class Members
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
@@ -70,7 +64,6 @@ class Members
     public function setLastname(string $lastname): static
     {
         $this->lastname = $lastname;
-
         return $this;
     }
 
@@ -82,13 +75,9 @@ class Members
     public function setEmail(?string $email): static
     {
         $this->email = $email;
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, Activities>
-     */
     public function getActivities(): Collection
     {
         return $this->activities;
@@ -100,7 +89,6 @@ class Members
             $this->activities->add($activity);
             $activity->addMember($this);
         }
-
         return $this;
     }
 
@@ -109,7 +97,6 @@ class Members
         if ($this->activities->removeElement($activity)) {
             $activity->removeMember($this);
         }
-
         return $this;
     }
 
@@ -121,31 +108,25 @@ class Members
     public function setUser(?User $user): static
     {
         $this->user = $user;
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, Teams>
-     */
-    public function getTeam(): Collection
+    public function getTeams(): Collection
     {
-        return $this->team;
+        return $this->teams;
     }
 
     public function addTeam(Teams $team): static
     {
-        if (!$this->team->contains($team)) {
-            $this->team->add($team);
+        if (!$this->teams->contains($team)) {
+            $this->teams->add($team);
         }
-
         return $this;
     }
 
     public function removeTeam(Teams $team): static
     {
-        $this->team->removeElement($team);
-
+        $this->teams->removeElement($team);
         return $this;
     }
 }

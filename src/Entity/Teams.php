@@ -18,16 +18,11 @@ class Teams
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    /**
-     * @var Collection<int, Activities>
-     */
-    #[ORM\ManyToMany(targetEntity: Activities::class, mappedBy: 'team')]
+    #[ORM\ManyToMany(targetEntity: Activities::class, mappedBy: 'teams')]
     private Collection $activities;
 
-    /**
-     * @var Collection<int, Members>
-     */
-    #[ORM\ManyToMany(targetEntity: Members::class, mappedBy: 'team')]
+    #[ORM\ManyToMany(targetEntity: Members::class, inversedBy: 'teams')]
+    #[ORM\JoinTable(name: 'members_teams')]
     private Collection $members;
 
     public function __construct()
@@ -49,13 +44,9 @@ class Teams
     public function setName(string $name): static
     {
         $this->name = $name;
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, Activities>
-     */
     public function getActivities(): Collection
     {
         return $this->activities;
@@ -67,7 +58,6 @@ class Teams
             $this->activities->add($activity);
             $activity->addTeam($this);
         }
-
         return $this;
     }
 
@@ -76,13 +66,9 @@ class Teams
         if ($this->activities->removeElement($activity)) {
             $activity->removeTeam($this);
         }
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, Members>
-     */
     public function getMembers(): Collection
     {
         return $this->members;
@@ -94,7 +80,6 @@ class Teams
             $this->members->add($member);
             $member->addTeam($this);
         }
-
         return $this;
     }
 
@@ -103,7 +88,6 @@ class Teams
         if ($this->members->removeElement($member)) {
             $member->removeTeam($this);
         }
-
         return $this;
     }
 }
